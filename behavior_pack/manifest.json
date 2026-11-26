@@ -1,0 +1,23 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Bedrock- Behavior Pack",
+    "description": "Gameplay-side foundation for Bedrock-.",
+    "uuid": "7b8e4f2a-6d31-4c95-9a72-1f0b8d3e5c61",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 21, 0]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "c2a91d74-3e58-4f06-bb13-8d6a2f9c704e",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "e5d3a817-9c42-4b60-a1f8-6d2e0c7b9354",
+      "version": [1, 0, 0]
+    }
+  ]
+}
