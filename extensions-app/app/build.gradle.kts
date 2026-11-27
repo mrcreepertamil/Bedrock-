@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.afcreeper.bedrockpp.extensions"
+    namespace = "com.afcreeper.bedrockpp.companion"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.afcreeper.bedrockpp.extensions"
+        applicationId = "com.afcreeper.bedrockpp.companion"
         minSdk = 26
         targetSdk = 35
         versionCode = providers.gradleProperty("versionCode").orElse("1").get().toInt()
