@@ -1,8 +1,8 @@
 package com.afcreeper.bedrockpp.companion
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -12,28 +12,15 @@ import java.io.IOException
 class MainActivity : FlutterActivity() {
     private val channelName = "bedrockpp/structures"
     private val maxInputBytes = 8 * 1024 * 1024
-    private lateinit var openDocument: ActivityResultLauncher<Array<String>>
-    private lateinit var createDocument: ActivityResultLauncher<String>
+    private val requestOpen = 7101
+    private val requestSave = 7102
+
     private var pendingStructure: StructureInterchange? = null
     private var pendingPickResult: MethodChannel.Result? = null
     private var pendingSaveResult: MethodChannel.Result? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-
-        openDocument = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            val callback = pendingPickResult
-            pendingPickResult = null
-            if (uri == null) callback?.success(null) else readStructureData(uri, callback)
-        }
-        createDocument = registerForActivityResult(
-            ActivityResultContracts.CreateDocument("application/octet-stream")
-        ) { uri ->
-            val callback = pendingSaveResult
-            pendingSaveResult = null
-            if (uri == null) callback?.success(null) else writeStructureFile(uri, callback)
-        }
-
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
@@ -42,7 +29,12 @@ class MainActivity : FlutterActivity() {
                             result.error("BUSY", "A file selection is already open.", null)
                         } else {
                             pendingPickResult = result
-                            openDocument.launch(arrayOf("application/json", "text/*", "*/*"))
+                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                                addCategory(Intent.CATEGORY_OPENABLE)
+                                type = "*/*"
+                                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/json", "text/plain"))
+                            }
+                            startActivityForResult(intent, requestOpen)
                         }
                     }
                     "saveMcstructure" -> {
@@ -53,12 +45,34 @@ class MainActivity : FlutterActivity() {
                             result.error("BUSY", "A save dialog is already open.", null)
                         } else {
                             pendingSaveResult = result
-                            createDocument.launch(structure.suggestedFileName())
+                            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                                addCategory(Intent.CATEGORY_OPENABLE)
+                                type = "application/octet-stream"
+                                putExtra(Intent.EXTRA_TITLE, structure.suggestedFileName())
+                            }
+                            startActivityForResult(intent, requestSave)
                         }
                     }
                     else -> result.notImplemented()
                 }
             }
+    }
+
+    @Deprecated("Deprecated by Android, retained for broad SAF compatibility")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != requestOpen && requestCode != requestSave) return
+
+        val uri = if (resultCode == Activity.RESULT_OK) data?.data else null
+        if (requestCode == requestOpen) {
+            val callback = pendingPickResult
+            pendingPickResult = null
+            if (uri == null) callback?.success(null) else readStructureData(uri, callback)
+        } else {
+            val callback = pendingSaveResult
+            pendingSaveResult = null
+            if (uri == null) callback?.success(null) else writeStructureFile(uri, callback)
+        }
     }
 
     private fun readStructureData(uri: Uri, callback: MethodChannel.Result?) {
