@@ -136,6 +136,11 @@
               }
             },
             {
+              "realms_tile@bedrockpp_main_menu.menu_action_tile": {
+                "$bedrockpp_action_label": "REALMS"
+              }
+            },
+            {
               "settings_tile@bedrockpp_main_menu.menu_action_tile": {
                 "$bedrockpp_action_label": "SETTINGS"
               }
