@@ -1,15 +1,13 @@
 /**
  * Bedrock++ Behavior Pack entry point.
  *
- * Feature modules should register their initializers before startup.
- * Import those modules here as they are implemented. The registry will
- * start only features enabled in this world's Behavior Pack settings.
+ * Feature modules register their initializers before startup.
+ * The registry starts only features enabled in this world's Behavior Pack settings.
  */
 import { initializeEnabledFeatures } from "./feature_manager.js";
+import "./features/structure_export.js";
 
-// Feature modules will be imported here when their implementations exist.
-// Example:
-// import "./features/cinematic_camera.js";
+// Import additional feature modules here as they are implemented.
 
 initializeEnabledFeatures().catch((error) => {
   console.error("[Bedrock++] Feature initialization failed:", error);
