@@ -1,5 +1,6 @@
 {
   "ui_defs": [
-    "ui/bedrockpp_theme.json"
+    "ui/bedrockpp_theme.json",
+    "ui/bedrockpp/main_menu.json"
   ]
 }
