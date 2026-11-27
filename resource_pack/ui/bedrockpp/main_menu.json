@@ -136,11 +136,6 @@
               }
             },
             {
-              "worlds_tile@bedrockpp_main_menu.menu_action_tile": {
-                "$bedrockpp_action_label": "WORLDS"
-              }
-            },
-            {
               "settings_tile@bedrockpp_main_menu.menu_action_tile": {
                 "$bedrockpp_action_label": "SETTINGS"
               }
