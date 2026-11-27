@@ -1,0 +1,21 @@
+{
+  "format": "bedrockpp-structure",
+  "version": 1,
+  "name": "sample_platform",
+  "size": [2, 1, 2],
+  "origin": [0, 64, 0],
+  "palette": [
+    {
+      "name": "minecraft:stone",
+      "states": {},
+      "version": 18168865
+    },
+    {
+      "name": "minecraft:oak_planks",
+      "states": {},
+      "version": 18168865
+    }
+  ],
+  "blocks": [0, 1, 1, 0],
+  "secondary": [-1, -1, -1, -1]
+}
