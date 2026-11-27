@@ -1,18 +1,26 @@
-# Bedrock-
+# Bedrock++
 
 **A private, evolving enhancement project for Minecraft Bedrock Edition.**
 
-Bedrock- aims to improve and expand the Bedrock experience while keeping the identity and feel of vanilla Minecraft.
-
-The project is intentionally broader than a single add-on feature. Its scope can grow over time as new ideas are researched and proven feasible.
+Bedrock++ aims to improve and expand the Bedrock experience while keeping the identity and feel of vanilla Minecraft.
 
 ## Project direction
 
 - Improve and rethink parts of the Bedrock user experience and interface.
 - Explore cinematic creation tools inspired by Java Edition projects such as Blockbuster and Replay Mod.
 - Investigate replay capture, playback, camera paths, scene tools, and actor workflows.
-- Add carefully designed enhancements that feel at home in vanilla Minecraft.
-- Keep future features modular so the project can grow without being tied to one feature.
+- Build structure capture, schematic, and guided-building tools.
+- Use the Bedrock++ companion APK for supported file-management and conversion workflows.
+- Keep features modular where practical and validate platform constraints before promising functionality.
+
+## Current prototypes
+
+- Behavior Pack structure capture can save a selected block region into the current world's structure storage.
+- The Android companion has an initial converter that turns a Bedrock++ structure-data JSON file into a Bedrock .mcstructure file.
+- The add-on-to-APK transfer bridge is not implemented yet, so automatic capture-to-file export is not complete.
+- The custom Structure Block UI button is still under investigation; a visible JSON UI button is not proof that its click can call add-on JavaScript.
+
+See the [roadmap](docs/ROADMAP.md), [feature notes](docs/FEATURES.md), [structure export notes](docs/STRUCTURE_EXPORT.md), and [interchange format](docs/STRUCTURE_INTERCHANGE_FORMAT.md).
 
 ## Design principles
 
@@ -21,16 +29,6 @@ The project is intentionally broader than a single add-on feature. Its scope can
 3. **Modular** — features should be separable where practical.
 4. **Feasibility before promises** — Bedrock add-ons have different technical access from Java mods. Each feature must be prototyped against supported Bedrock capabilities before it is promised.
 5. **No mob behaviour overhaul** — changing mob AI or behaviour is outside the current project direction.
-
-## Status
-
-Early planning and repository setup. No feature should be considered implemented until it has working code and has been tested in-game.
-
-See [the roadmap](docs/ROADMAP.md) and [feature notes](docs/FEATURES.md).
-
-## Development
-
-The implementation stack and minimum supported Minecraft version have not been selected yet. Those decisions will be recorded here once the first technical prototypes are evaluated.
 
 ## Project access and ownership
 
