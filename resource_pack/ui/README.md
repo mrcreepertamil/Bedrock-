@@ -7,6 +7,11 @@ This folder contains the first original UI foundation for Bedrock++.
 - `_ui_defs.json`: registers Bedrock++ JSON UI definitions.
 - `_global_variables.json`: shared colors and spacing tokens.
 - `bedrockpp_theme.json`: reusable visual primitives for future screens.
+- `bedrockpp/main_menu.json`: first main-menu layout module.
+
+## Main-menu module status
+
+The main-menu module defines a dark backplate, Bedrock++ title, subtitle, and three visual action tiles (Play, Worlds, Settings). It is currently a layout prototype: the tiles are not wired to Minecraft navigation actions, and the module is not yet attached to the vanilla start-screen composition.
 
 ## Visual direction
 
