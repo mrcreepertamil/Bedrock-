@@ -1,10 +1,26 @@
-# Bedrock++ Extensions for Android
+# Bedrock++ Companion for Android
 
-This folder contains the Android companion app project for managing Bedrock++ extensions.
+The companion app includes the first structure-file conversion workflow.
 
-## Current status
+## Structure conversion
 
-This is the initial Android project scaffold. It builds an installable placeholder app; the extension browser, importer, updater, and Minecraft connection have not been implemented yet.
+1. Choose a Bedrock++ structure-data JSON file (.bppstruct.json).
+2. The app validates its dimensions, palette, and block indices.
+3. Choose **Create .mcstructure file**.
+4. Pick a destination using Android's system document picker.
+
+The app writes an uncompressed, little-endian Bedrock .mcstructure file using format version 1.
+
+## Current scope and limitations
+
+- Interchange format: bedrockpp-structure, version 1.
+- Up to 64 blocks per axis and 32,768 blocks total.
+- Block palette and primary block layer are supported.
+- Secondary layer is optional and defaults to all void.
+- Entities, block entities, scheduled ticks, and other auxiliary data are not included in this first converter.
+- This app currently converts an interchange file supplied by the user. The in-game add-on does not yet have a supported automatic file-transfer API to create that file directly on Android. Do not treat the end-to-end capture-to-APK workflow as complete until that bridge is implemented and tested.
+
+See docs/STRUCTURE_INTERCHANGE_FORMAT.md for the file schema and docs/STRUCTURE_EXPORT.md for the add-on capture limitations.
 
 ## Build locally
 
@@ -15,27 +31,10 @@ Requirements:
 
 From this directory:
 
-```bash
-gradle :app:assembleDebug
-```
+    gradle :app:assembleDebug
 
 The APK is generated at:
 
-```
-app/build/outputs/apk/debug/app-debug.apk
-```
+    app/build/outputs/apk/debug/app-debug.apk
 
-## GitHub Actions releases
-
-The workflow at `.github/workflows/extensions-apk-release.yml` builds an installable debug APK and attaches it to a GitHub Release.
-
-Create and push a version tag:
-
-```bash
-git tag extensions-v0.1.0
-git push origin extensions-v0.1.0
-```
-
-Or run **Build and Release Bedrock++ Extensions APK** manually from the GitHub Actions tab and enter a version such as `0.1.0`.
-
-> The first workflow publishes a debug-signed APK for testing. Before distributing production builds, configure a private Android release keystore using GitHub Actions secrets and add a proper release-signing step. Never commit a keystore or its passwords.
+The GitHub Actions workflow builds a debug APK for testing. A production release needs a private signing key configured as repository secrets; never commit a keystore or its passwords.
