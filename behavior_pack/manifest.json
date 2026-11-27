@@ -1,23 +1,76 @@
 {
-  "format_version": 2,
+  "format_version": 3,
   "header": {
-    "name": "Bedrock- Behavior Pack",
-    "description": "Gameplay-side foundation for Bedrock-.",
+    "name": "Bedrock++ Behavior Pack",
+    "description": "World-configurable features for Bedrock++.",
     "uuid": "7b8e4f2a-6d31-4c95-9a72-1f0b8d3e5c61",
-    "version": [1, 0, 0],
-    "min_engine_version": [1, 21, 0]
+    "version": "1.1.0",
+    "min_engine_version": "1.21.130"
   },
   "modules": [
     {
       "type": "data",
       "uuid": "c2a91d74-3e58-4f06-bb13-8d6a2f9c704e",
-      "version": [1, 0, 0]
+      "version": "1.1.0"
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "entry": "scripts/main.js",
+      "uuid": "4c228a18-ef2a-4a71-b37c-94b4d9642478",
+      "version": "1.1.0"
     }
   ],
   "dependencies": [
     {
       "uuid": "e5d3a817-9c42-4b60-a1f8-6d2e0c7b9354",
-      "version": [1, 0, 0]
+      "version": "1.0.0"
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.0.0"
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "mrcreepertamil"
+    ],
+    "product_type": "addon"
+  },
+  "settings": [
+    {
+      "type": "label",
+      "text": "Choose which Bedrock++ creative tools are enabled in this world."
+    },
+    {
+      "type": "toggle",
+      "text": "Cinematic Camera Tools",
+      "name": "bedrockpp:cinematic_camera",
+      "default": true
+    },
+    {
+      "type": "toggle",
+      "text": "Replay Capture",
+      "name": "bedrockpp:replay_capture",
+      "default": false
+    },
+    {
+      "type": "toggle",
+      "text": "Replay Playback",
+      "name": "bedrockpp:replay_playback",
+      "default": false
+    },
+    {
+      "type": "toggle",
+      "text": "Actor Tools",
+      "name": "bedrockpp:actor_tools",
+      "default": false
+    },
+    {
+      "type": "toggle",
+      "text": "Scene Tools",
+      "name": "bedrockpp:scene_tools",
+      "default": false
     }
   ]
 }
