@@ -60,6 +60,9 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install Android build platform
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -72,7 +75,6 @@ jobs:
             -PversionCode="${{ steps.version.outputs.version_code }}"
 
       - name: Prepare release APK
-        working-directory: .
         env:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
         run: |
