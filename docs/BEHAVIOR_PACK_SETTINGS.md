@@ -15,8 +15,9 @@ Open the world's **Behavior Packs** list, select the Bedrock++ Behavior Pack, an
 | Replay Playback | Off | Future replay playback prototype |
 | Actor Tools | Off | Future actor / machinima workflow tools |
 | Scene Tools | Off | Future scene setup tools |
+| Structure Export | Off | Capture a selected region into this world's structure storage |
 
-These are configuration switches, not completed features. Replay Capture, Replay Playback, Actor Tools, Scene Tools, and Cinematic Camera Tools still need their actual feature implementations.
+Replay Capture, Replay Playback, Actor Tools, Scene Tools, and Cinematic Camera Tools still need their actual feature implementations. Structure Export has an initial Script API prototype; it has not yet been tested in Minecraft.
 
 ## Feature gating
 
@@ -36,16 +37,19 @@ registerFeature("bedrockpp:cinematic_camera", async ({ world, settings }) => {
 });
 ```
 
-When a feature implementation is added, import its module in `scripts/main.js` before the startup call. Do not register a feature until its implementation is ready.
+When a feature implementation is added, import its module in `scripts/main.js` before the startup call.
 
 ## Compatibility
 
 Custom pack settings require manifest format version 3 and a minimum engine version of 1.21.130 or newer. The Script API exposes `world.getPackSettings()`. Microsoft's custom Behavior Pack settings workflow is documented as experimental / subject to change, so test on the exact Bedrock release targeted by each build.
+
+Structure Export additionally depends on `@minecraft/server-ui` 2.0.0 for its naming form.
 
 ## Status
 
 - [x] Add world-level toggle definitions to the Behavior Pack manifest.
 - [x] Add a shared Script API settings reader.
 - [x] Add a feature initializer registry and toggle gate.
-- [ ] Implement and register the actual feature systems.
+- [x] Add the first Structure Export implementation and module registration.
 - [ ] Test the settings screen and saved values in Minecraft.
+- [ ] Test Structure Export on the target Android and Bedrock versions.
