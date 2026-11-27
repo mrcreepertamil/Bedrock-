@@ -73,8 +73,14 @@ jobs:
         run: flutter pub get
 
       - name: Generate Android Gradle wrapper
-        working-directory: extensions-app/android
-        run: gradle wrapper --gradle-version 8.10.2
+        shell: bash
+        run: |
+          mkdir -p /tmp/bedrockpp-wrapper
+          cd /tmp/bedrockpp-wrapper
+          gradle wrapper --gradle-version 8.10.2
+          cp gradlew gradlew.bat "$GITHUB_WORKSPACE/extensions-app/android/"
+          mkdir -p "$GITHUB_WORKSPACE/extensions-app/android/gradle"
+          cp -R gradle/wrapper "$GITHUB_WORKSPACE/extensions-app/android/gradle/"
 
       - name: Build installable debug APK
         run: |
