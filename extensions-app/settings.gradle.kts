@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BedrockPPExtensions"
+rootProject.name = "BedrockPPCompanion"
 include(":app")
