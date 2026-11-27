@@ -1,9 +1,9 @@
-name: Build and Release Bedrock++ Extensions APK
+name: Build and Release Bedrock++ Companion APK
 
 on:
   push:
     tags:
-      - "extensions-v*"
+      - "companion-v*"
   workflow_dispatch:
     inputs:
       version:
@@ -34,7 +34,7 @@ jobs:
           if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
             VERSION="$INPUT_VERSION"
           else
-            VERSION="${GITHUB_REF_NAME#extensions-v}"
+            VERSION="${GITHUB_REF_NAME#companion-v}"
           fi
 
           if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -80,12 +80,12 @@ jobs:
         run: |
           mkdir -p dist
           cp app/build/outputs/apk/debug/app-debug.apk \
-            "dist/BedrockPP-Extensions-${RELEASE_VERSION}.apk"
+            "dist/BedrockPP-Companion-${RELEASE_VERSION}.apk"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: BedrockPP-Extensions-${{ steps.version.outputs.version }}
+          name: BedrockPP-Companion-${{ steps.version.outputs.version }}
           path: extensions-app/dist/*.apk
           if-no-files-found: error
           retention-days: 30
@@ -93,7 +93,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: extensions-v${{ steps.version.outputs.version }}
-          name: Bedrock++ Extensions ${{ steps.version.outputs.version }}
+          tag_name: companion-v${{ steps.version.outputs.version }}
+          name: Bedrock++ Companion ${{ steps.version.outputs.version }}
           generate_release_notes: true
           files: extensions-app/dist/*.apk
