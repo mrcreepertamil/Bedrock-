@@ -73,7 +73,12 @@ class _CompanionHomePageState extends State<CompanionHomePage> {
       if (!mounted) return;
       if (result != null) setState(() => _structure = result);
     } on PlatformException catch (e) {
-      if (mounted) setState(() => _error = e.message ?? 'Could not open that file.');
+      if (mounted) {
+        setState(() {
+          _structure = null;
+          _error = e.message ?? 'Could not open that file.';
+        });
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
