@@ -14,6 +14,8 @@ This is a planning document, not a promise that every idea will ship. Priorities
 - [ ] Prototype a small, maintainable UI improvement.
 - [ ] Research replay capture and playback constraints on Bedrock.
 - [ ] Test camera-control and cinematic workflow possibilities.
+- [ ] Test the Structure Export prototype in Minecraft.
+- [ ] Prototype a supported companion-APK transfer path for portable structure files.
 - [ ] Document platform limitations and performance considerations.
 
 ## Phase 2 — First usable features
@@ -26,6 +28,7 @@ This is a planning document, not a promise that every idea will ship. Priorities
 - More interface and quality-of-life improvements.
 - Replay and cinematic creation tools inspired by Java mod workflows.
 - Scene, camera, and actor tooling where Bedrock APIs allow it.
+- Structure capture, schematic previews, and guided building tools.
 - Additional vanilla-style enhancements as the project evolves.
 
 ## Out of scope for the current direction
