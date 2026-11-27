@@ -5,7 +5,8 @@
     "description": "World-configurable features for Bedrock++.",
     "uuid": "7b8e4f2a-6d31-4c95-9a72-1f0b8d3e5c61",
     "version": "1.1.0",
-    "min_engine_version": "1.21.130"
+    "min_engine_version": "1.21.130",
+    "pack_icon": "pack_icon.png"
   },
   "modules": [
     {
@@ -32,9 +33,7 @@
     }
   ],
   "metadata": {
-    "authors": [
-      "mrcreepertamil"
-    ],
+    "authors": ["mrcreepertamil"],
     "product_type": "addon"
   },
   "settings": [

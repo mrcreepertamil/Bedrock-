@@ -1,11 +1,12 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Bedrock- Resource Pack",
-    "description": "Resources and UI-side foundation for Bedrock-.",
+    "name": "Bedrock++ Resource Pack",
+    "description": "Resources and UI-side foundation for Bedrock++.",
     "uuid": "e5d3a817-9c42-4b60-a1f8-6d2e0c7b9354",
     "version": [1, 0, 0],
-    "min_engine_version": [1, 21, 0]
+    "min_engine_version": [1, 21, 0],
+    "pack_icon": "pack_icon.png"
   },
   "modules": [
     {
