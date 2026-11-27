@@ -1,0 +1,120 @@
+name: Build and Release Bedrock++
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (for example 1.2.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Resolve release version
+        id: version
+        shell: bash
+        run: |
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Version must use MAJOR.MINOR.PATCH (example: 1.2.0). Got: $VERSION"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Update pack manifest versions and build MCAddon
+        env:
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          import re
+          import zipfile
+
+          version = os.environ["RELEASE_VERSION"]
+          version_parts = [int(part) for part in version.split(".")]
+
+          bp_path = pathlib.Path("behavior_pack/manifest.json")
+          rp_path = pathlib.Path("resource_pack/manifest.json")
+
+          bp = json.loads(bp_path.read_text(encoding="utf-8"))
+          rp = json.loads(rp_path.read_text(encoding="utf-8"))
+
+          rp_uuid = rp["header"]["uuid"]
+
+          # Keep Bedrock++ pack and module versions in sync for this release.
+          bp["header"]["version"] = version
+          for module in bp.get("modules", []):
+              module["version"] = version
+
+          rp["header"]["version"] = version_parts
+          for module in rp.get("modules", []):
+              module["version"] = version_parts
+
+          # Keep the Behavior Pack dependency aligned with this Resource Pack.
+          dependencies = bp.setdefault("dependencies", [])
+          rp_dependency = next(
+              (item for item in dependencies if item.get("uuid") == rp_uuid),
+              None
+          )
+          if rp_dependency is None:
+              dependencies.append({"uuid": rp_uuid, "version": version})
+          else:
+              rp_dependency["version"] = version
+
+          bp_path.write_text(json.dumps(bp, indent=2) + "\n", encoding="utf-8")
+          rp_path.write_text(json.dumps(rp, indent=2) + "\n", encoding="utf-8")
+
+          # Validate that both manifests remain valid JSON and the pack link matches.
+          checked_bp = json.loads(bp_path.read_text(encoding="utf-8"))
+          checked_rp = json.loads(rp_path.read_text(encoding="utf-8"))
+          assert any(
+              item.get("uuid") == checked_rp["header"]["uuid"]
+              and item.get("version") == version
+              for item in checked_bp.get("dependencies", [])
+          ), "Behavior Pack dependency does not match Resource Pack release version"
+
+          output = pathlib.Path("dist")
+          output.mkdir(exist_ok=True)
+          addon_path = output / f"Bedrock++-{version}.mcaddon"
+
+          # A .mcaddon is a ZIP containing the BP and RP pack folders.
+          with zipfile.ZipFile(addon_path, "w", zipfile.ZIP_DEFLATED) as archive:
+              for pack_dir in (pathlib.Path("behavior_pack"), pathlib.Path("resource_pack")):
+                  for file_path in sorted(pack_dir.rglob("*")):
+                      if file_path.is_file():
+                          archive.write(file_path, file_path.as_posix())
+
+          print(f"Built {addon_path}")
+          PY
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', inputs.version) || github.ref_name }}
+          name: Bedrock++ ${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          files: dist/*.mcaddon
