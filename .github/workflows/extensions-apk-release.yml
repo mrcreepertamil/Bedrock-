@@ -28,16 +28,16 @@ jobs:
         id: version
         working-directory: .
         env:
-          INPUT_VERSION: \${{ inputs.version }}
+          INPUT_VERSION: ${ inputs.version }
         shell: bash
         run: |
-          if [ "\${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+          if [ "$${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
             VERSION="$INPUT_VERSION"
           else
-            VERSION="\${GITHUB_REF_NAME#companion-v}"
+            VERSION="$${GITHUB_REF_NAME#companion-v}"
           fi
 
-          if ! [[ "$VERSION" =~ ^[0-9]+\\.[0-9]+\\.[0-9]+$ ]]; then
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Version must use MAJOR.MINOR.PATCH (example: 0.1.0). Got: $VERSION"
             exit 1
           fi
@@ -78,22 +78,22 @@ jobs:
 
       - name: Build installable debug APK
         run: |
-          flutter build apk --debug \\
-            --build-name="\${{ steps.version.outputs.version }}" \\
-            --build-number="\${{ steps.version.outputs.version_code }}"
+          flutter build apk --debug \
+            --build-name="${ steps.version.outputs.version }" \
+            --build-number="${ steps.version.outputs.version_code }"
 
       - name: Prepare release APK
         env:
-          RELEASE_VERSION: \${{ steps.version.outputs.version }}
+          RELEASE_VERSION: ${ steps.version.outputs.version }
         run: |
           mkdir -p dist
-          cp build/app/outputs/flutter-apk/app-debug.apk \\
-            "dist/BedrockPP-Companion-\${RELEASE_VERSION}.apk"
+          cp build/app/outputs/flutter-apk/app-debug.apk \
+            "dist/BedrockPP-Companion-$RELEASE_VERSION.apk"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: BedrockPP-Companion-\${{ steps.version.outputs.version }}
+          name: BedrockPP-Companion-${ steps.version.outputs.version }
           path: extensions-app/dist/*.apk
           if-no-files-found: error
           retention-days: 30
@@ -101,7 +101,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: companion-v\${{ steps.version.outputs.version }}
-          name: Bedrock++ Companion \${{ steps.version.outputs.version }}
+          tag_name: companion-v${ steps.version.outputs.version }
+          name: Bedrock++ Companion ${ steps.version.outputs.version }
           generate_release_notes: true
           files: extensions-app/dist/*.apk
