@@ -13,7 +13,8 @@ const KNOWN_FEATURE_SETTINGS = new Set([
   "bedrockpp:replay_capture",
   "bedrockpp:replay_playback",
   "bedrockpp:actor_tools",
-  "bedrockpp:scene_tools"
+  "bedrockpp:scene_tools",
+  "bedrockpp:structure_export"
 ]);
 
 export function getFeatureSettings() {
@@ -24,7 +25,8 @@ export function getFeatureSettings() {
     replayCapture: packSettings["bedrockpp:replay_capture"] === true,
     replayPlayback: packSettings["bedrockpp:replay_playback"] === true,
     actorTools: packSettings["bedrockpp:actor_tools"] === true,
-    sceneTools: packSettings["bedrockpp:scene_tools"] === true
+    sceneTools: packSettings["bedrockpp:scene_tools"] === true,
+    structureExport: packSettings["bedrockpp:structure_export"] === true
   });
 }
 
