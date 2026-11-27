@@ -1,0 +1,31 @@
+{
+  "namespace": "bedrockpp",
+  "panel_background": {
+    "type": "image",
+    "texture": "textures/ui/White",
+    "color": "$bedrockpp_color_background",
+    "alpha": 0.94,
+    "size": ["100%", "100%"]
+  },
+  "surface_panel": {
+    "type": "panel",
+    "size": ["100%", "100%"],
+    "controls": [
+      {
+        "surface_fill": {
+          "type": "image",
+          "texture": "textures/ui/White",
+          "color": "$bedrockpp_color_surface",
+          "alpha": 1,
+          "size": ["100%", "100%"]
+        }
+      }
+    ]
+  },
+  "accent_rule": {
+    "type": "image",
+    "texture": "textures/ui/White",
+    "color": "$bedrockpp_color_accent",
+    "size": ["100%", 2]
+  }
+}
